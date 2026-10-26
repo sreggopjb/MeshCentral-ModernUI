@@ -51,15 +51,25 @@ With `list` set, MeshCentral loads exactly the plugins named there and the **My 
 
 ### Option 2: install from My Server → Plugins
 
-MeshCentral can download and install a plugin from a URL to its `config.json`. For that, publish this folder as a Git repository and fill in the empty URLs in `config.json`:
+1. Enable plugins in `meshcentral-data/config.json`, without a `list`, and restart MeshCentral:
 
-- `homepage`, `repository.url`: the repository page.
-- `configUrl`: the raw URL of `config.json` on the default branch.
-- `downloadUrl`: a ZIP of the repository (for GitHub, `https://github.com/<owner>/<repo>/archive/refs/heads/<branch>.zip`).
-- `changelogUrl`: a changelog or release page.
-- `versionHistoryUrl` (optional): for GitHub, `https://api.github.com/repos/<owner>/<repo>/tags`.
+   ```json
+   {
+     "settings": {
+       "plugins": { "enabled": true }
+     }
+   }
+   ```
 
-Then, with `"plugins": { "enabled": true }` in the server config, use **My Server → Plugins → Download Plugin**, enter the `configUrl`, and enable the plugin.
+2. As a full administrator, open **My Server → Plugins → Download Plugin** and enter:
+
+   ```
+   https://raw.githubusercontent.com/sreggopjb/MeshCentral-ModernUI/main/config.json
+   ```
+
+3. The plugin appears in the list as Disabled. Click **Install** in its row. MeshCentral downloads the `main` branch as a ZIP and enables it.
+
+The URLs in `config.json` point at this repository's `main` branch. If you fork or move it, update `homepage`, `configUrl`, `downloadUrl`, `changelogUrl`, `versionHistoryUrl` and `repository.url` to match. `versionHistoryUrl` lists the repository's Git tags, which MeshCentral offers as older versions to install; tag releases as `v0.1.0`, `v0.2.0` and so on.
 
 ## How it works
 
