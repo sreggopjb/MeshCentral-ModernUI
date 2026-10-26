@@ -1,0 +1,2761 @@
+/*
+ * MeshCentral Modern UI
+ *
+ * Every rule is scoped under html.mui so turning the theme off (or failing to load it)
+ * leaves the classic interface untouched. Colors come from the tokens below; dark mode
+ * follows MeshCentral's own night mode setting (body.night).
+ *
+ * Layout budget: the classic UI sizes its panels with calc(100vh - N) where N assumes a
+ * 66px header plus a 24px tab bar. The header (56px) and tab bar (34px) here add up to the
+ * same 90px so those calculations stay correct.
+ */
+
+/* ---------- Design tokens ---------- */
+
+html.mui body {
+    --mui-font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+    --mui-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+
+    --mui-bg: #f5f6f8;
+    --mui-surface: #ffffff;
+    --mui-surface-2: #f1f3f6;
+    --mui-surface-3: #e8ebf0;
+    --mui-border: #e3e6eb;
+    --mui-border-strong: #cdd2da;
+    --mui-text: #171a1f;
+    --mui-text-2: #505865;
+    --mui-text-3: #8a919d;
+    --mui-accent: #2f6bed;
+    --mui-accent-hover: #2459cc;
+    --mui-accent-soft: rgba(47, 107, 237, 0.10);
+    --mui-accent-soft-2: rgba(47, 107, 237, 0.18);
+    --mui-on-accent: #ffffff;
+    --mui-success: #16a34a;
+    --mui-success-soft: rgba(22, 163, 74, 0.12);
+    --mui-warning: #d97706;
+    --mui-warning-soft: rgba(217, 119, 6, 0.12);
+    --mui-danger: #dc2626;
+    --mui-danger-soft: rgba(220, 38, 38, 0.10);
+    --mui-icon-bg: #eaf0fd;
+    --mui-icon-fg: #2f6bed;
+    --mui-backdrop: rgba(15, 18, 24, 0.32);
+
+    --mui-radius-sm: 6px;
+    --mui-radius: 8px;
+    --mui-radius-lg: 12px;
+    --mui-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --mui-shadow: 0 2px 6px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+    --mui-shadow-lg: 0 16px 40px rgba(16, 24, 40, 0.18), 0 2px 8px rgba(16, 24, 40, 0.08);
+    --mui-ring: 0 0 0 3px rgba(47, 107, 237, 0.25);
+
+    --mui-header-h: 56px;
+    --mui-tabs-h: 34px;
+    --mui-sidebar-w: 224px;
+    --mui-control-h: 30px;
+}
+
+html.mui.mui-collapsed body {
+    --mui-sidebar-w: 64px;
+}
+
+html.mui body.night {
+    --mui-bg: #0e1014;
+    --mui-surface: #161920;
+    --mui-surface-2: #1d212a;
+    --mui-surface-3: #262b36;
+    --mui-border: #262b35;
+    --mui-border-strong: #353b48;
+    --mui-text: #e7e9ed;
+    --mui-text-2: #a3aab7;
+    --mui-text-3: #727a88;
+    --mui-accent: #5b8def;
+    --mui-accent-hover: #7aa3f3;
+    --mui-accent-soft: rgba(91, 141, 239, 0.14);
+    --mui-accent-soft-2: rgba(91, 141, 239, 0.24);
+    --mui-on-accent: #ffffff;
+    --mui-success: #34c76f;
+    --mui-success-soft: rgba(52, 199, 111, 0.14);
+    --mui-warning: #f0a33a;
+    --mui-warning-soft: rgba(240, 163, 58, 0.14);
+    --mui-danger: #f26464;
+    --mui-danger-soft: rgba(242, 100, 100, 0.14);
+    --mui-icon-bg: rgba(91, 141, 239, 0.14);
+    --mui-icon-fg: #8bb0f5;
+    --mui-backdrop: rgba(0, 0, 0, 0.55);
+    --mui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --mui-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    --mui-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+    --mui-ring: 0 0 0 3px rgba(91, 141, 239, 0.35);
+    color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+
+html.mui body {
+    font-family: var(--mui-font);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--mui-text);
+    background-color: var(--mui-bg) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html.mui body.night {
+    color: var(--mui-text);
+}
+
+html.mui a,
+html.mui body.night a {
+    color: var(--mui-accent);
+    text-decoration: none;
+}
+
+html.mui a:hover {
+    text-decoration: underline;
+}
+
+html.mui ::selection {
+    background: var(--mui-accent-soft-2);
+}
+
+html.mui :focus-visible {
+    outline: 2px solid var(--mui-accent);
+    outline-offset: 2px;
+}
+
+html.mui * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mui-border-strong) transparent;
+}
+
+html.mui ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+html.mui ::-webkit-scrollbar-thumb {
+    background-color: var(--mui-border-strong);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+html.mui ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html.mui hr {
+    border: 0;
+    border-top: 1px solid var(--mui-border);
+}
+
+/* ---------- Frame: grid ---------- */
+
+html.mui #container,
+html.mui body.night #container {
+    background-color: var(--mui-bg);
+    color: var(--mui-text);
+    border-color: var(--mui-border);
+}
+
+html.mui .fullscreen #container {
+    grid-template-columns: var(--mui-sidebar-w) minmax(0, 1fr);
+    -ms-grid-columns: var(--mui-sidebar-w) 1fr;
+    grid-template-rows: var(--mui-header-h) var(--mui-tabs-h) auto 45px;
+}
+
+html.mui .nofooter.fullscreen #container {
+    grid-template-rows: var(--mui-header-h) var(--mui-tabs-h) auto 0px;
+}
+
+html.mui .fullscreen.menu_stack #container {
+    grid-template-rows: var(--mui-header-h) minmax(var(--mui-tabs-h), max-content) auto 45px;
+}
+
+html.mui .nofooter.fullscreen.menu_stack #container {
+    grid-template-rows: var(--mui-header-h) minmax(var(--mui-tabs-h), max-content) auto 0px;
+}
+
+/* ---------- Header ---------- */
+
+html.mui #masthead {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: var(--mui-header-h);
+    box-sizing: border-box;
+    padding: 0 12px 0 16px;
+    background: var(--mui-surface) !important;
+    border-bottom: 1px solid var(--mui-border);
+    text-align: left;
+    overflow: visible;
+    position: relative;
+    z-index: 900;
+}
+
+html.mui #masthead > div[style*="float:left"] {
+    order: 0;
+    display: flex;
+    align-items: center;
+}
+
+html.mui #masthead .title {
+    order: 1;
+    float: none;
+    height: auto;
+    padding: 0;
+    color: var(--mui-text);
+    font-family: var(--mui-font);
+    font-size: 17px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    text-shadow: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+html.mui #masthead .title2 {
+    order: 2;
+    float: none;
+    height: auto;
+    padding: 2px 8px;
+    margin-left: 4px;
+    border-radius: 999px;
+    background: var(--mui-surface-2);
+    color: var(--mui-text-2);
+    font-family: var(--mui-font);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-shadow: none;
+    white-space: nowrap;
+}
+
+html.mui #masthead .title2:empty {
+    display: none;
+}
+
+html.mui #masthead .mui-brand-mark {
+    order: 0;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    margin-right: 6px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+html.mui #masthead .mui-brand-mark svg {
+    width: 17px;
+    height: 17px;
+    color: #fff;
+}
+
+/* A custom title picture configured by the server admin replaces the text title. */
+html.mui #masthead .mui-brand-logo {
+    order: 1;
+    max-height: 40px;
+    max-width: 260px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+html.mui #masthead .mui-spacer {
+    order: 3;
+    flex: 1 1 auto;
+}
+
+html.mui #masthead > div[style*="float:right"] {
+    order: 5;
+    float: none !important;
+    display: flex;
+    align-items: center;
+}
+
+html.mui #masthead #logoutControl {
+    display: none;
+}
+
+html.mui #masthead .textnewui {
+    display: none;
+}
+
+html.mui #notificationCount {
+    min-width: 20px;
+    height: 20px;
+    margin: 0 4px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: var(--mui-danger);
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+/* Search trigger, icon buttons and user menu added by modernui-client.js */
+html.mui .mui-search {
+    order: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 280px;
+    max-width: 32vw;
+    height: 34px;
+    margin-right: 6px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius);
+    background: var(--mui-surface-2);
+    color: var(--mui-text-3);
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+html.mui .mui-search:hover {
+    border-color: var(--mui-border-strong);
+    color: var(--mui-text-2);
+}
+
+html.mui .mui-search svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+}
+
+html.mui .mui-search span {
+    flex: 1 1 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+html.mui .mui-kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--mui-border-strong);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    background: var(--mui-surface);
+    color: var(--mui-text-3);
+    font-family: var(--mui-font);
+    font-size: 10.5px;
+    line-height: 14px;
+    white-space: nowrap;
+}
+
+html.mui .mui-iconbtn {
+    order: 6;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--mui-radius);
+    background: transparent;
+    color: var(--mui-text-2);
+    cursor: pointer;
+}
+
+html.mui .mui-iconbtn:hover,
+html.mui .mui-iconbtn.mui-open {
+    background: var(--mui-surface-2);
+    color: var(--mui-text);
+}
+
+html.mui .mui-iconbtn svg {
+    width: 18px;
+    height: 18px;
+}
+
+html.mui .mui-user {
+    order: 7;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    margin-left: 4px;
+    padding: 0 8px 0 4px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--mui-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+html.mui .mui-user:hover,
+html.mui .mui-user.mui-open {
+    background: var(--mui-surface-2);
+}
+
+html.mui .mui-avatar {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+html.mui .mui-user-name {
+    max-width: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+html.mui .mui-user svg {
+    width: 14px;
+    height: 14px;
+    color: var(--mui-text-3);
+}
+
+/* Dropdown menus (user menu, appearance menu) */
+html.mui .mui-menu {
+    position: fixed;
+    z-index: 2000;
+    min-width: 230px;
+    max-width: 320px;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-lg);
+    color: var(--mui-text);
+    animation: mui-pop 0.12s ease-out;
+}
+
+html.mui .mui-menu-head {
+    padding: 8px 10px 10px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--mui-border);
+}
+
+html.mui .mui-menu-head b {
+    display: block;
+    font-weight: 600;
+}
+
+html.mui .mui-menu-head span {
+    color: var(--mui-text-3);
+    font-size: 12px;
+}
+
+html.mui .mui-menu-label {
+    padding: 8px 10px 4px;
+    color: var(--mui-text-3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+html.mui .mui-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 32px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: var(--mui-radius-sm);
+    background: transparent;
+    color: var(--mui-text);
+    font: inherit;
+    text-align: left;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+html.mui .mui-menu-item:hover,
+html.mui .mui-menu-item:focus-visible {
+    background: var(--mui-surface-2);
+    outline: none;
+}
+
+html.mui .mui-menu-item svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    color: var(--mui-text-2);
+}
+
+html.mui .mui-menu-item .mui-check {
+    margin-left: auto;
+    color: var(--mui-accent);
+}
+
+html.mui .mui-menu-item.mui-danger,
+html.mui .mui-menu-item.mui-danger svg {
+    color: var(--mui-danger);
+}
+
+html.mui .mui-menu-sep {
+    height: 1px;
+    margin: 6px 4px;
+    background: var(--mui-border);
+}
+
+html.mui .mui-segment {
+    display: flex;
+    gap: 2px;
+    margin: 4px 6px 6px;
+    padding: 3px;
+    border-radius: var(--mui-radius);
+    background: var(--mui-surface-2);
+}
+
+html.mui .mui-segment button {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 28px;
+    border: 0;
+    border-radius: var(--mui-radius-sm);
+    background: transparent;
+    color: var(--mui-text-2);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+html.mui .mui-segment button svg {
+    width: 14px;
+    height: 14px;
+}
+
+html.mui .mui-segment button.mui-on {
+    background: var(--mui-surface);
+    color: var(--mui-text);
+    box-shadow: var(--mui-shadow-sm);
+}
+
+@keyframes mui-pop {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ---------- Sidebar ---------- */
+
+html.mui #page_leftbar {
+    width: auto;
+    box-sizing: border-box;
+    padding: 12px 10px;
+    background: var(--mui-surface) !important;
+    border-right: 1px solid var(--mui-border);
+    color: var(--mui-text-2);
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 800;
+}
+
+html.mui .fullscreen #page_leftbar {
+    display: flex;
+}
+
+html.mui .fullscreen.menu_stack #page_leftbar,
+html.mui .fullscreen.arg_hide #page_leftbar,
+html.mui .fulldesk #page_leftbar {
+    display: none;
+}
+
+html.mui #page_leftbar > div[style*="height:16px"] {
+    display: none;
+}
+
+html.mui #page_leftbar .lbbutton,
+html.mui body.night #page_leftbar .lbbutton {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+    height: 38px;
+    margin: 0;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border-radius: var(--mui-radius);
+    background: transparent;
+    color: var(--mui-text-2);
+    opacity: 1;
+    font-size: 13.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+html.mui #page_leftbar .lbbutton[style*="display: none"],
+html.mui #page_leftbar .lbbutton[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui #page_leftbar .lbbutton:hover {
+    background: var(--mui-surface-2);
+    color: var(--mui-text);
+}
+
+html.mui #page_leftbar .lbbutton.lbbuttonsel,
+html.mui #page_leftbar .lbbutton.lbbuttonsel2 {
+    background: var(--mui-accent-soft);
+    color: var(--mui-accent);
+    width: auto;
+    border-radius: var(--mui-radius);
+}
+
+html.mui #page_leftbar .lbtg {
+    display: none;
+}
+
+html.mui .mui-nav-icon {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+html.mui .mui-nav-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+html.mui .mui-nav-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html.mui .mui-nav-section {
+    padding: 14px 12px 6px;
+    color: var(--mui-text-3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+html.mui .mui-nav-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--mui-border);
+}
+
+html.mui .mui-nav-footer button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 34px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--mui-radius);
+    background: transparent;
+    color: var(--mui-text-3);
+    font: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+html.mui .mui-nav-footer button:hover {
+    background: var(--mui-surface-2);
+    color: var(--mui-text);
+}
+
+html.mui .mui-nav-footer svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin-left: 1px;
+    transition: transform 0.18s ease;
+}
+
+html.mui.mui-collapsed #page_leftbar {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+html.mui.mui-collapsed #page_leftbar .lbbutton {
+    justify-content: center;
+    padding: 0;
+}
+
+html.mui.mui-collapsed .mui-nav-label,
+html.mui.mui-collapsed .mui-nav-section {
+    display: none;
+}
+
+html.mui.mui-collapsed .mui-nav-footer button {
+    justify-content: center;
+    padding: 0;
+}
+
+html.mui.mui-collapsed .mui-nav-footer svg {
+    transform: rotate(180deg);
+}
+
+/* On narrow windows the rail is forced, so the toggle has nothing to do. */
+html.mui.mui-narrow .mui-nav-footer {
+    display: none;
+}
+
+/* ---------- Tab bar ---------- */
+
+html.mui #topbar {
+    background: var(--mui-bg);
+    z-index: 700;
+}
+
+html.mui #MainMenuSpan,
+html.mui #MainSubMenuSpan,
+html.mui #MeshSubMenuSpan,
+html.mui #EventsSubMenuSpan,
+html.mui #UserSubMenuSpan,
+html.mui #UsersSubMenuSpan,
+html.mui #ServerSubMenuSpan,
+html.mui #MainSubMenu,
+html.mui #MeshSubMenu,
+html.mui #EventsSubMenu,
+html.mui #UserSubMenu,
+html.mui #UsersSubMenu,
+html.mui #ServerSubMenu,
+html.mui #UserDummyMenu,
+html.mui #PluginSubMenu {
+    height: var(--mui-tabs-h);
+    background: transparent;
+    color: var(--mui-text-2);
+}
+
+html.mui #MainSubMenuSpan,
+html.mui #MeshSubMenuSpan,
+html.mui #EventsSubMenuSpan,
+html.mui #UserSubMenuSpan,
+html.mui #UsersSubMenuSpan,
+html.mui #ServerSubMenuSpan,
+html.mui .menu_stack #MainMenuSpan {
+    box-sizing: border-box;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--mui-border);
+    background: var(--mui-surface);
+}
+
+html.mui #topbar table.style1 {
+    width: auto;
+    border-collapse: collapse;
+}
+
+html.mui #UserDummyMenu .style3,
+html.mui #topbar .topbar_td_end,
+html.mui #topbar .style3 {
+    background: transparent;
+}
+
+html.mui #topbar .topbar_td,
+html.mui .nonenglish #topbar .topbar_td {
+    width: auto;
+    height: var(--mui-tabs-h);
+    box-sizing: border-box;
+    padding: 0 14px;
+    background: transparent;
+    color: var(--mui-text-2);
+    font-weight: 500;
+    font-size: 13px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+html.mui #topbar .topbar_td:hover {
+    background: transparent;
+    color: var(--mui-text);
+    border-bottom-color: var(--mui-border-strong);
+}
+
+html.mui #topbar .topbar_td.style3sel,
+html.mui #topbar .topbar_td.fullselect {
+    background: transparent;
+    color: var(--mui-accent);
+    border-bottom-color: var(--mui-accent);
+}
+
+html.mui #topbar .topbar_td.semiselect {
+    background: transparent;
+    color: var(--mui-text);
+}
+
+html.mui #topbar .topbar_td_end {
+    width: 100%;
+}
+
+/* Top menu layout: the classic UI reserves 24px for the second row of tabs. */
+html.mui .menu_stack #MainSubMenuSpan,
+html.mui .menu_stack #MeshSubMenuSpan,
+html.mui .menu_stack #EventsSubMenuSpan,
+html.mui .menu_stack #UserSubMenuSpan,
+html.mui .menu_stack #UsersSubMenuSpan,
+html.mui .menu_stack #ServerSubMenuSpan,
+html.mui .menu_stack #MainSubMenu,
+html.mui .menu_stack #MeshSubMenu,
+html.mui .menu_stack #EventsSubMenu,
+html.mui .menu_stack #UserSubMenu,
+html.mui .menu_stack #UsersSubMenu,
+html.mui .menu_stack #ServerSubMenu,
+html.mui .menu_stack #MainSubMenuSpan .topbar_td,
+html.mui .menu_stack #MeshSubMenuSpan .topbar_td,
+html.mui .menu_stack #EventsSubMenuSpan .topbar_td,
+html.mui .menu_stack #UserSubMenuSpan .topbar_td,
+html.mui .menu_stack #UsersSubMenuSpan .topbar_td,
+html.mui .menu_stack #ServerSubMenuSpan .topbar_td {
+    height: 24px;
+    font-size: 12.5px;
+}
+
+html.mui .menu_stack #MainMenuSpan {
+    border-bottom: 0;
+}
+
+/* The classic "◆" interface menu is hidden by modernui-client.js; the header's appearance menu replaces it. */
+
+html.mui #logoutControlSpan2 {
+    color: var(--mui-text-2);
+}
+
+/* ---------- Content area ---------- */
+
+html.mui #column_l,
+html.mui body.night #column_l {
+    padding: 0 24px;
+    background-color: var(--mui-bg);
+    color: var(--mui-text);
+}
+
+/* Page titles and the toolbar under them must fit the ~95px the classic UI reserves for
+   them (65px title + 30px toolbar), otherwise the lists below get clipped. */
+html.mui #column_l h1 {
+    margin: 0;
+    padding: 12px 0 10px;
+    color: var(--mui-text);
+    font-family: var(--mui-font);
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+}
+
+html.mui #column_l h2,
+html.mui #column_l h3,
+html.mui #column_l h4 {
+    color: var(--mui-text);
+    font-weight: 600;
+}
+
+/* A spacer line under every page; with this theme's taller line height it would push
+   full-height pages a few pixels past the content area. */
+html.mui .fullscreen #column_l_bottomgap {
+    display: none;
+}
+
+html.mui #p0message {
+    margin: 48px auto;
+    max-width: 420px;
+    padding: 24px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow);
+    text-align: center;
+    font-size: 14px;
+}
+
+/* ---------- Footer ---------- */
+
+html.mui #footer,
+html.mui body.night #footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 24px;
+    background: var(--mui-bg);
+    border-top: 1px solid var(--mui-border);
+    color: var(--mui-text-3);
+    font-size: 12px;
+}
+
+html.mui #footer[style*="display: none"],
+html.mui #footer[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui .footer1,
+html.mui .footer2,
+html.mui #footer td,
+html.mui #footer td:first-child {
+    float: none;
+    padding: 0;
+    color: var(--mui-text-3);
+}
+
+html.mui #footer a {
+    color: var(--mui-text-2);
+    text-decoration: none;
+}
+
+html.mui #footer a:hover {
+    color: var(--mui-text);
+    text-decoration: underline;
+}
+
+/* ---------- Controls ---------- */
+
+html.mui input[type=button],
+html.mui input[type=submit],
+html.mui input[type=reset],
+html.mui button:not([class*="mui-"]):not(.xterm-helper-textarea) {
+    height: var(--mui-control-h);
+    min-height: var(--mui-control-h);
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border-strong);
+    border-radius: var(--mui-radius-sm);
+    background: var(--mui-surface);
+    color: var(--mui-text);
+    font-family: var(--mui-font);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    vertical-align: middle;
+    cursor: pointer;
+    box-shadow: var(--mui-shadow-sm);
+    transition: background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+html.mui input[type=button]:hover:not(:disabled),
+html.mui input[type=submit]:hover:not(:disabled),
+html.mui input[type=reset]:hover:not(:disabled),
+html.mui button:not([class*="mui-"]):hover:not(:disabled) {
+    background: var(--mui-surface-2);
+    border-color: var(--mui-text-3);
+}
+
+html.mui input[type=button]:active:not(:disabled),
+html.mui input[type=submit]:active:not(:disabled),
+html.mui button:not([class*="mui-"]):active:not(:disabled) {
+    background: var(--mui-surface-3);
+}
+
+html.mui input[type=button]:disabled,
+html.mui input[type=submit]:disabled,
+html.mui input[type=reset]:disabled,
+html.mui button:not([class*="mui-"]):disabled {
+    opacity: 0.5;
+    cursor: default;
+    box-shadow: none;
+}
+
+html.mui button:not([class*="mui-"]) img {
+    vertical-align: middle;
+}
+
+html.mui input[type=text],
+html.mui input[type=input],
+html.mui input[type=password],
+html.mui input[type=email],
+html.mui input[type=number],
+html.mui input[type=search],
+html.mui input[type=url],
+html.mui input[type=tel],
+html.mui input[type=date],
+html.mui input[type=time],
+html.mui input[type=datetime-local],
+html.mui input:not([type]),
+html.mui select,
+html.mui textarea {
+    min-height: var(--mui-control-h);
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border-strong);
+    border-radius: var(--mui-radius-sm);
+    background-color: var(--mui-surface);
+    color: var(--mui-text);
+    font-family: var(--mui-font);
+    font-size: 13px;
+    vertical-align: middle;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+html.mui textarea {
+    padding: 6px 10px;
+    line-height: 1.45;
+}
+
+html.mui select {
+    padding-right: 28px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238a919d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 14px 14px;
+    cursor: pointer;
+}
+
+html.mui select[multiple],
+html.mui select[size] {
+    padding: 4px;
+    background-image: none;
+}
+
+html.mui input:focus,
+html.mui select:focus,
+html.mui textarea:focus {
+    border-color: var(--mui-accent);
+    box-shadow: var(--mui-ring);
+    outline: none;
+}
+
+html.mui input::placeholder,
+html.mui textarea::placeholder {
+    color: var(--mui-text-3);
+}
+
+html.mui input:disabled,
+html.mui select:disabled,
+html.mui textarea:disabled {
+    opacity: 0.6;
+}
+
+html.mui input[type=checkbox],
+html.mui input[type=radio] {
+    accent-color: var(--mui-accent);
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+html.mui label {
+    cursor: pointer;
+}
+
+/* ---------- Device list toolbar ---------- */
+
+html.mui #p1title {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+}
+
+html.mui #devListToolbarViewIcons {
+    display: flex !important;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius);
+    background: var(--mui-surface);
+}
+
+html.mui #devListToolbarViewIcons[style*="display: none"],
+html.mui #devListToolbarViewIcons[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui .viewSelector {
+    width: 30px;
+    height: 26px;
+    margin: 0;
+    border-radius: var(--mui-radius-sm);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+html.mui .viewSelector[style*="display: none"],
+html.mui .viewSelector[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui .viewSelector:hover {
+    background: var(--mui-surface-2);
+}
+
+html.mui .viewSelector.viewSelectorSel {
+    background: var(--mui-accent-soft);
+}
+
+html.mui body.night .viewSelector > div,
+html.mui .viewSelector > div {
+    filter: none;
+    opacity: 0.75;
+}
+
+html.mui body.night .viewSelector > div {
+    filter: invert(1);
+}
+
+html.mui #devViewPageState {
+    margin-right: 8px;
+    color: var(--mui-text-2);
+    font-size: 13px !important;
+}
+
+html.mui #devListToolbarSpan {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+}
+
+html.mui #devListToolbarSpan td.h1,
+html.mui #devListToolbarSpan td.h2 {
+    width: 6px;
+    background: transparent;
+}
+
+html.mui #devListToolbarSpan td {
+    height: 38px;
+    background: transparent;
+    color: var(--mui-text-2);
+}
+
+html.mui #devListToolbar,
+html.mui #kvmListToolbar,
+html.mui #devMapToolbar {
+    padding: 0 4px;
+}
+
+html.mui #devListToolbar > *,
+html.mui #kvmListToolbar > * {
+    margin-right: 4px;
+}
+
+html.mui #devListToolbar label,
+html.mui #kvmListToolbar label {
+    white-space: nowrap;
+}
+
+html.mui #SearchInput,
+html.mui #KvmSearchInput {
+    width: clamp(160px, 18vw, 260px);
+    padding-left: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a919d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 9px center;
+    background-size: 15px 15px;
+}
+
+html.mui #SearchInputClearButton img,
+html.mui #KvmSearchInputClearButton img {
+    left: -24px !important;
+    top: -7px !important;
+    opacity: 0.6;
+}
+
+html.mui #CollapseAllButton,
+html.mui #ExpandAllButton,
+html.mui #CollapseAllButton2,
+html.mui #ExpandAllButton2 {
+    width: var(--mui-control-h);
+    padding: 0;
+}
+
+html.mui body.night #CollapseAllButton img,
+html.mui body.night #ExpandAllButton img,
+html.mui body.night #CollapseAllButton2 img,
+html.mui body.night #ExpandAllButton2 img {
+    filter: invert(1);
+}
+
+html.mui #devListToolbarSpan .auto-style1 {
+    text-align: right;
+    white-space: nowrap;
+}
+
+html.mui #devListToolbarSpan .auto-style1 > div {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+html.mui #devListToolbarSpan .auto-style1 > div[style*="display: none"],
+html.mui #devListToolbarSpan .auto-style1 > div[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui #NoMeshesPanel {
+    padding: 28px;
+    border: 1px dashed var(--mui-border-strong);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+}
+
+/* ---------- Device list: groups ---------- */
+
+/* Spacing lives inside the list's own (max-)height so it costs no page height. */
+html.mui #xdevices {
+    box-sizing: border-box;
+    padding-top: 8px;
+    padding-bottom: 16px;
+}
+
+html.mui .DevSt,
+html.mui body.night .DevSt {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 8px;
+    padding: 0 0 8px 2px !important;
+    border-bottom: 1px solid var(--mui-border);
+    color: var(--mui-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+html.mui #xdevices > .DevSt:first-child {
+    margin-top: 2px;
+}
+
+html.mui .DevSt > span[style*="float:right"],
+html.mui .DevSt > span[style*="float: right"] {
+    order: 10;
+    margin-left: auto;
+    float: none !important;
+}
+
+html.mui .DevSt a {
+    font-size: 12px !important;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--mui-accent-soft);
+}
+
+html.mui .DevSt a:hover {
+    text-decoration: none;
+    background: var(--mui-accent-soft-2);
+}
+
+html.mui .devHeaderx {
+    color: var(--mui-text-3);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+html.mui .collapseImage {
+    width: 10px;
+    height: 10px;
+    padding: 4px;
+    border-radius: 4px;
+    opacity: 0.6;
+}
+
+html.mui .collapseImage:hover {
+    background: var(--mui-surface-2);
+    opacity: 1;
+}
+
+/* ---------- Device list: column (card) view ---------- */
+
+html.mui div[name=xxdevice1] {
+    width: 286px !important;
+    height: 60px !important;
+    margin: 0 10px 10px 0;
+    padding: 0 !important;
+    vertical-align: top;
+}
+
+html.mui div[name=xxdevice1] > table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+    transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+html.mui div[name=xxdevice1] > table:hover {
+    border-color: var(--mui-accent-soft-2);
+    box-shadow: var(--mui-shadow);
+}
+
+html.mui div[name=xxdevice1] > table > tbody > tr > td:first-child {
+    width: 30px !important;
+    padding-left: 8px;
+}
+
+html.mui div[name=xxdevice1] .g1t,
+html.mui div[name=xxdevice1] .g2t,
+html.mui div[name=xxdevice1] .g1,
+html.mui div[name=xxdevice1] .g2 {
+    width: 0;
+    padding: 0;
+    background: none !important;
+}
+
+html.mui div[name=xxdevice1] .e2t,
+html.mui div[name=xxdevice1] .e2,
+html.mui div[name=xxdevice1] .e2s,
+html.mui body.night div[name=xxdevice1] .e2t {
+    padding-left: 10px;
+    background: transparent !important;
+    color: var(--mui-text-3);
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+html.mui div[name=xxdevice1] .e1t,
+html.mui div[name=xxdevice1] .e1 {
+    max-width: 190px;
+    margin: 0 0 1px;
+    color: var(--mui-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+html.mui div[name=xxdevice1] td[style*="width:50px"] {
+    width: 42px !important;
+}
+
+html.mui div[name=xxdevice1] .i1,
+html.mui div[name=xxdevice1] .i2,
+html.mui div[name=xxdevice1] .i3,
+html.mui div[name=xxdevice1] .i4,
+html.mui div[name=xxdevice1] .i5,
+html.mui div[name=xxdevice1] .i6,
+html.mui div[name=xxdevice1] .i7,
+html.mui div[name=xxdevice1] .i8 {
+    width: 40px !important;
+    height: 40px;
+    border-radius: 10px;
+}
+
+/* ---------- Device list: list view ---------- */
+
+html.mui #xdevices th[style*="color:gray"] {
+    padding: 0 8px 8px;
+    color: var(--mui-text-3) !important;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+html.mui tr[name=xxdevice2] {
+    height: 38px !important;
+}
+
+html.mui tr[name=xxdevice2] > td {
+    border-bottom: 1px solid var(--mui-border);
+    color: var(--mui-text-2);
+    font-size: 12.5px;
+}
+
+html.mui tr[name=xxdevice2]:hover > td {
+    background: var(--mui-surface);
+}
+
+html.mui tr[name=xxdevice2] .bar18,
+html.mui tr[name=xxdevice2] .bar182,
+html.mui body.night tr[name=xxdevice2] .bar18 {
+    display: flex;
+    align-items: center;
+    float: none;
+    height: 37px !important;
+    margin: 0;
+    background: transparent;
+    color: var(--mui-text);
+}
+
+html.mui .deviceBarCheckbox,
+html.mui .deviceBarIcon,
+html.mui body.night .deviceBarCheckbox,
+html.mui body.night .deviceBarIcon {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    float: none;
+    height: auto;
+    background: transparent;
+}
+
+html.mui .deviceBarCheckbox {
+    width: 26px;
+    padding-left: 6px;
+}
+
+html.mui .deviceBarIcon {
+    width: auto;
+    margin-right: 10px;
+}
+
+html.mui .deviceBarIcon > div {
+    margin: 0 !important;
+}
+
+html.mui tr[name=xxdevice2] .g1,
+html.mui tr[name=xxdevice2] .g2 {
+    display: none;
+}
+
+html.mui tr[name=xxdevice2] .style10 {
+    flex: 1 1 auto;
+    max-height: none !important;
+    font-size: 13.5px !important;
+    font-weight: 500;
+}
+
+/* ---------- Device icons (all sizes of the .iN sprite) ---------- */
+
+html.mui .i1,
+html.mui .i2,
+html.mui .i3,
+html.mui .i4,
+html.mui .i5,
+html.mui .i6,
+html.mui .i7,
+html.mui .i8 {
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: var(--mui-icon-bg) !important;
+}
+
+html.mui .i1::before,
+html.mui .i2::before,
+html.mui .i3::before,
+html.mui .i4::before,
+html.mui .i5::before,
+html.mui .i6::before,
+html.mui .i7::before,
+html.mui .i8::before {
+    content: "";
+    position: absolute;
+    inset: 23%;
+    background-color: var(--mui-icon-fg);
+    -webkit-mask: var(--mui-glyph) center / contain no-repeat;
+    mask: var(--mui-glyph) center / contain no-repeat;
+}
+
+html.mui .i1 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='3.5' width='19' height='13' rx='2'/%3E%3Cpath d='M8 20.5h8M12 16.5v4'/%3E%3C/svg%3E"); }
+html.mui .i2 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4.5' width='16' height='11' rx='1.5'/%3E%3Cpath d='M2 19.5h20l-1.5-4h-17z'/%3E%3C/svg%3E"); }
+html.mui .i3 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2.5' width='12' height='19' rx='2.5'/%3E%3Cpath d='M11 18.5h2'/%3E%3C/svg%3E"); }
+html.mui .i4 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='3' width='17' height='7.5' rx='1.5'/%3E%3Crect x='3.5' y='13.5' width='17' height='7.5' rx='1.5'/%3E%3Cpath d='M7 6.75h.01M7 17.25h.01M11 6.75h6M11 17.25h6'/%3E%3C/svg%3E"); }
+html.mui .i5 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5.5' rx='8' ry='3'/%3E%3Cpath d='M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3'/%3E%3C/svg%3E"); }
+html.mui .i6 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='13' width='19' height='7' rx='1.5'/%3E%3Cpath d='M6.5 16.5h.01M10 16.5h.01M17 13V9M8.5 7.5a5 5 0 0 1 8.5 0M5.5 5a9 9 0 0 1 14.5 0'/%3E%3C/svg%3E"); }
+html.mui .i7 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='5' width='14' height='14' rx='2'/%3E%3Crect x='9' y='9' width='6' height='6' rx='1'/%3E%3Cpath d='M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3'/%3E%3C/svg%3E"); }
+html.mui .i8 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6.5' y='2.5' width='15' height='11' rx='1.5'/%3E%3Cpath d='M17.5 16.5v1.5a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 18v-7.5A1.5 1.5 0 0 1 4 9h2.5M9 21.5h5'/%3E%3C/svg%3E"); }
+
+/* Offline devices */
+html.mui .i1.gray,
+html.mui .i2.gray,
+html.mui .i3.gray,
+html.mui .i4.gray,
+html.mui .i5.gray,
+html.mui .i6.gray,
+html.mui .i7.gray,
+html.mui .i8.gray {
+    -webkit-filter: none;
+    filter: none;
+    opacity: 1;
+    background: var(--mui-surface-2) !important;
+}
+
+html.mui .i1.gray::before,
+html.mui .i2.gray::before,
+html.mui .i3.gray::before,
+html.mui .i4.gray::before,
+html.mui .i5.gray::before,
+html.mui .i6.gray::before,
+html.mui .i7.gray::before,
+html.mui .i8.gray::before {
+    background-color: var(--mui-text-3);
+}
+
+/* ---------- Context menus ---------- */
+
+html.mui .contextMenu {
+    min-width: 180px;
+    max-width: 260px;
+    padding: 6px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-lg);
+    color: var(--mui-text);
+    font-size: 13px;
+}
+
+html.mui .contextMenu .cmtext {
+    display: block;
+    width: auto;
+    padding: 7px 10px;
+    border-radius: var(--mui-radius-sm);
+    color: var(--mui-text);
+    cursor: pointer;
+}
+
+html.mui .contextMenu .cmtext:hover {
+    background: var(--mui-surface-2);
+    color: var(--mui-text);
+}
+
+html.mui .contextMenu hr {
+    margin: 5px 4px;
+}
+
+/* ---------- Dialog ---------- */
+
+html.mui #dialog {
+    top: 14vh;
+    min-width: 360px;
+    max-width: calc(100vw - 32px);
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-lg);
+    color: var(--mui-text);
+    font-family: var(--mui-font);
+    font-size: 13px;
+    animation: mui-pop 0.14s ease-out;
+}
+
+/* Dim the page behind the dialog. A spread shadow is used rather than an overlay element
+   so the page behind keeps receiving clicks, as it does in the classic UI. */
+html.mui #dialog {
+    box-shadow: var(--mui-shadow-lg), 0 0 0 200vmax var(--mui-backdrop);
+}
+
+html.mui #dialogHeader {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 14px 12px 10px 20px;
+    border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
+    background: var(--mui-surface);
+    color: var(--mui-text);
+}
+
+html.mui #id_dialogtitle {
+    padding: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+html.mui #id_dialogclose {
+    float: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--mui-radius-sm);
+    color: var(--mui-text-3);
+    font-size: 13px;
+}
+
+html.mui #id_dialogclose:hover {
+    background: var(--mui-surface-2);
+    color: var(--mui-text);
+}
+
+html.mui #dialogBody {
+    margin: 0;
+    padding: 4px 20px 16px;
+    background: var(--mui-surface);
+    border-radius: 0 0 var(--mui-radius-lg) var(--mui-radius-lg);
+}
+
+html.mui #id_dialogMessage {
+    padding: 6px 0 10px;
+    color: var(--mui-text-2);
+    line-height: 1.55;
+}
+
+html.mui #dialog1 {
+    text-align: left;
+    margin: 0;
+}
+
+html.mui #dialog2,
+html.mui #dialog3,
+html.mui #dialog7 {
+    margin: 0;
+}
+
+html.mui #idx_dlgButtonBar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 0;
+    padding: 12px 20px;
+    border-top: 1px solid var(--mui-border);
+    background: var(--mui-bg);
+    border-radius: 0 0 var(--mui-radius-lg) var(--mui-radius-lg);
+}
+
+html.mui #idx_dlgButtonBar[style*="display: none"],
+html.mui #idx_dlgButtonBar[style*="display:none"] {
+    display: none !important;
+}
+
+html.mui #idx_dlgButtonBar input {
+    float: none !important;
+    margin: 0 !important;
+}
+
+html.mui #idx_dlgOkButton {
+    order: 3;
+    border-color: var(--mui-accent);
+    background: var(--mui-accent);
+    color: var(--mui-on-accent);
+}
+
+html.mui #idx_dlgOkButton:hover:not(:disabled) {
+    border-color: var(--mui-accent-hover);
+    background: var(--mui-accent-hover);
+}
+
+html.mui #idx_dlgCancelButton {
+    order: 2;
+}
+
+/* The delete button sits in its own wrapper div */
+html.mui #idx_dlgButtonBar > div:not(#idx_dlgMoreButtons) {
+    order: 0;
+    margin-right: auto;
+    float: none !important;
+}
+
+html.mui #idx_dlgDeleteButton {
+    border-color: transparent;
+    background: transparent;
+    color: var(--mui-danger);
+    box-shadow: none;
+}
+
+html.mui #idx_dlgDeleteButton:hover:not(:disabled) {
+    background: var(--mui-danger-soft);
+    border-color: transparent;
+}
+
+html.mui #idx_dlgMoreButtons {
+    order: 1;
+}
+
+html.mui #d3serveraction,
+html.mui #d2serveraction {
+    background: var(--mui-surface-2);
+    border-radius: var(--mui-radius-sm) var(--mui-radius-sm) 0 0;
+}
+
+html.mui #d3serverfiles,
+html.mui #d2serverfiles {
+    background: var(--mui-surface);
+    border: 1px solid var(--mui-border);
+    border-radius: 0 0 var(--mui-radius-sm) var(--mui-radius-sm);
+}
+
+html.mui #dialog7 h4 {
+    border-bottom: 1px solid var(--mui-border);
+}
+
+/* ---------- Notifications popover ---------- */
+
+html.mui .notifiyBox {
+    top: 54px;
+    right: 12px;
+    width: 340px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-lg);
+    color: var(--mui-text);
+    overflow: hidden;
+}
+
+html.mui body.night .notifiyBox {
+    color: var(--mui-text);
+}
+
+html.mui .notifiyBox:before,
+html.mui .notifiyBox:after {
+    display: none;
+}
+
+html.mui .notification:hover {
+    background: var(--mui-surface-2);
+}
+
+/* ---------- Command palette ---------- */
+
+html.mui .mui-palette-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+    background: var(--mui-backdrop);
+    animation: mui-fade 0.12s ease-out;
+}
+
+html.mui .mui-palette {
+    width: 620px;
+    max-width: calc(100vw - 32px);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--mui-border);
+    border-radius: 14px;
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-lg);
+    color: var(--mui-text);
+    overflow: hidden;
+    animation: mui-pop 0.14s ease-out;
+}
+
+html.mui .mui-palette-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--mui-border);
+}
+
+html.mui .mui-palette-input svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    color: var(--mui-text-3);
+}
+
+html.mui .mui-palette-input input,
+html.mui .mui-palette-input input:focus {
+    flex: 1 1 auto;
+    height: 52px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--mui-text);
+    font-size: 15px;
+}
+
+html.mui .mui-palette-list {
+    overflow-y: auto;
+    padding: 6px;
+}
+
+html.mui .mui-palette-group {
+    padding: 10px 10px 4px;
+    color: var(--mui-text-3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+html.mui .mui-palette-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 4px 10px;
+    border-radius: var(--mui-radius);
+    cursor: pointer;
+}
+
+html.mui .mui-palette-item.mui-active {
+    background: var(--mui-accent-soft);
+}
+
+html.mui .mui-palette-item .mui-pi-icon {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 7px;
+    background: var(--mui-surface-2);
+    color: var(--mui-text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html.mui .mui-palette-item .mui-pi-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+html.mui .mui-palette-item .mui-pi-icon[class*=" i"] {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+}
+
+html.mui .mui-pi-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+html.mui .mui-pi-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+html.mui .mui-pi-sub {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--mui-text-3);
+    font-size: 12px;
+}
+
+html.mui .mui-pi-actions {
+    display: none;
+    gap: 4px;
+}
+
+html.mui .mui-palette-item.mui-active .mui-pi-actions {
+    display: flex;
+}
+
+html.mui .mui-pi-actions button {
+    height: 24px;
+    padding: 0 8px;
+    border: 1px solid var(--mui-border-strong);
+    border-radius: 5px;
+    background: var(--mui-surface);
+    color: var(--mui-text-2);
+    font: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+}
+
+html.mui .mui-pi-actions button:hover {
+    color: var(--mui-text);
+    border-color: var(--mui-text-3);
+}
+
+html.mui .mui-status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--mui-text-3);
+    vertical-align: 1px;
+}
+
+html.mui .mui-status-dot.mui-online {
+    background: var(--mui-success);
+    box-shadow: 0 0 0 3px var(--mui-success-soft);
+}
+
+html.mui .mui-palette-empty {
+    padding: 28px 16px;
+    color: var(--mui-text-3);
+    text-align: center;
+}
+
+html.mui .mui-palette-foot {
+    display: flex;
+    gap: 16px;
+    padding: 8px 16px;
+    border-top: 1px solid var(--mui-border);
+    background: var(--mui-bg);
+    color: var(--mui-text-3);
+    font-size: 11.5px;
+}
+
+@keyframes mui-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ---------- Shared classic building blocks ---------- */
+
+/* Page toolbars: a table with gradient end caps (td.h1 / td.h2) around the controls. */
+html.mui .pTable {
+    height: 40px;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+    color: var(--mui-text-2);
+}
+
+html.mui .pTable td {
+    padding: 0 6px;
+}
+
+html.mui td.h1,
+html.mui td.h2,
+html.mui body.night td.h1,
+html.mui body.night td.h2 {
+    width: 4px;
+    padding: 0;
+    background: transparent;
+}
+
+html.mui .h1pre,
+html.mui .h2end {
+    background: transparent;
+}
+
+html.mui .style14,
+html.mui .auto-style1,
+html.mui body.night .style14,
+html.mui body.night .auto-style1 {
+    background: transparent;
+    color: var(--mui-text-2);
+}
+
+html.mui .style14 > div,
+html.mui .auto-style1 > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+html.mui .style14 > div[style*="float:right"],
+html.mui .style14 > div[style*="float: right"] {
+    float: right;
+}
+
+html.mui .pTable img[src*="images/link"],
+html.mui .pTable img[src*="icon-gear"] {
+    opacity: 0.65;
+    vertical-align: middle;
+}
+
+html.mui body.night .pTable img[src*="images/link"],
+html.mui body.night .pTable img[src*="icon-gear"],
+html.mui body.night #devListToolbarSettings {
+    filter: invert(1);
+}
+
+/* Gradient row end caps and gray bars used by most lists */
+html.mui .g1,
+html.mui .g2,
+html.mui .g1t,
+html.mui .g2t,
+html.mui .g1s,
+html.mui .g2s,
+html.mui body.night .g1,
+html.mui body.night .g2,
+html.mui body.night .g1t,
+html.mui body.night .g2t,
+html.mui body.night .g1s,
+html.mui body.night .g2s {
+    background: transparent !important;
+}
+
+html.mui .e2,
+html.mui .e2t,
+html.mui .e2s,
+html.mui .style10,
+html.mui .style10s,
+html.mui .style11,
+html.mui .bar,
+html.mui .sbar,
+html.mui .baricon,
+html.mui body.night .e2,
+html.mui body.night .e2t,
+html.mui body.night .e2s,
+html.mui body.night .style10,
+html.mui body.night .style10s,
+html.mui body.night .style11,
+html.mui body.night .bar,
+html.mui body.night .sbar,
+html.mui body.night .baricon {
+    background: transparent;
+    color: var(--mui-text);
+}
+
+html.mui .e1,
+html.mui .e1t {
+    color: var(--mui-text);
+}
+
+html.mui .bar,
+html.mui .style11 {
+    font-size: 14px;
+}
+
+html.mui .userTableHeader,
+html.mui td.userTableHeader {
+    padding: 14px 4px 6px;
+    border-bottom: 1px solid var(--mui-border);
+    color: var(--mui-text-3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+html.mui table.p3usersTable,
+html.mui table.p3eventsTable {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+html.mui .p3usersTable th {
+    padding: 0 8px 8px;
+    color: var(--mui-text-3);
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+html.mui .p3usersTable th:first-child {
+    text-align: left;
+}
+
+html.mui .p3usersTable tr[onmouseover] > td {
+    height: 40px;
+    border-bottom: 1px solid var(--mui-border);
+}
+
+html.mui .p3usersTable tr[onmouseover]:hover > td,
+html.mui .p3usersTable tr.sbar > td,
+html.mui .p3eventsTable tr[onmouseover]:hover > td {
+    background: var(--mui-surface);
+}
+
+html.mui #p3users .bar,
+html.mui #p50groups .bar {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin: 0;
+    font-size: 13.5px;
+}
+
+html.mui #p3users .bar > div[style*="cursor"],
+html.mui #p50groups .bar > div[style*="cursor"] {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+}
+
+html.mui .baricon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+html.mui .baricon div {
+    margin: 0;
+}
+
+/* Event lists */
+html.mui .p3eventsTable td.DevSt {
+    display: table-cell;
+    padding: 14px 4px 6px !important;
+    color: var(--mui-text-3);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+html.mui .p3eventsTable tr[onmouseover] > td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--mui-border);
+    vertical-align: middle;
+}
+
+html.mui .p3eventsTable tr[style*="height:2px"],
+html.mui .p3eventsTable tr[style*="height: 2px"] {
+    display: none;
+}
+
+html.mui .p3eventsTable td.g1,
+html.mui .p3eventsTable td.g2 {
+    width: 6px;
+}
+
+html.mui .p3eventsTable .style10 {
+    color: var(--mui-text-2);
+}
+
+html.mui .p3eventsTable .style10 a {
+    font-weight: 500;
+}
+
+/* ---------- Small icons from the classic sprites ---------- */
+
+html.mui .si1, html.mui .si2, html.mui .si3, html.mui .si4,
+html.mui .si5, html.mui .si6, html.mui .si7, html.mui .si8,
+html.mui .j1, html.mui .j2, html.mui .j3, html.mui .j4,
+html.mui .j5, html.mui .j6, html.mui .j7, html.mui .j8,
+html.mui .m2, html.mui .m3, html.mui .m4 {
+    background: var(--mui-icon-fg) !important;
+    -webkit-mask: var(--mui-glyph) center / contain no-repeat;
+    mask: var(--mui-glyph) center / contain no-repeat;
+}
+
+html.mui .si1.gray, html.mui .si2.gray, html.mui .si3.gray, html.mui .si4.gray,
+html.mui .si5.gray, html.mui .si6.gray, html.mui .si7.gray, html.mui .si8.gray,
+html.mui .j1.gray, html.mui .j2.gray, html.mui .j3.gray, html.mui .j4.gray,
+html.mui .j5.gray, html.mui .j6.gray, html.mui .j7.gray, html.mui .j8.gray,
+html.mui .m2.gray, html.mui .m3.gray, html.mui .m4.gray {
+    background: var(--mui-text-3) !important;
+    -webkit-filter: none;
+    filter: none;
+    opacity: 1;
+}
+
+html.mui .si1, html.mui .j1 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='3.5' width='19' height='13' rx='2'/%3E%3Cpath d='M8 20.5h8M12 16.5v4'/%3E%3C/svg%3E"); }
+html.mui .si2, html.mui .j2 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4.5' width='16' height='11' rx='1.5'/%3E%3Cpath d='M2 19.5h20l-1.5-4h-17z'/%3E%3C/svg%3E"); }
+html.mui .si3, html.mui .j3 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2.5' width='12' height='19' rx='2.5'/%3E%3Cpath d='M11 18.5h2'/%3E%3C/svg%3E"); }
+html.mui .si4, html.mui .j4 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='3' width='17' height='7.5' rx='1.5'/%3E%3Crect x='3.5' y='13.5' width='17' height='7.5' rx='1.5'/%3E%3Cpath d='M7 6.75h.01M7 17.25h.01'/%3E%3C/svg%3E"); }
+html.mui .si5, html.mui .j5 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5.5' rx='8' ry='3'/%3E%3Cpath d='M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3'/%3E%3C/svg%3E"); }
+html.mui .si6, html.mui .j6 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='13' width='19' height='7' rx='1.5'/%3E%3Cpath d='M6.5 16.5h.01M10 16.5h.01M17 13V9M8.5 7.5a5 5 0 0 1 8.5 0'/%3E%3C/svg%3E"); }
+html.mui .si7, html.mui .j7 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='5' width='14' height='14' rx='2'/%3E%3Crect x='9' y='9' width='6' height='6' rx='1'/%3E%3Cpath d='M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3'/%3E%3C/svg%3E"); }
+html.mui .si8, html.mui .j8 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6.5' y='2.5' width='15' height='11' rx='1.5'/%3E%3Cpath d='M17.5 16.5v1.5a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 18v-7.5A1.5 1.5 0 0 1 4 9h2.5'/%3E%3C/svg%3E"); }
+html.mui .m2, html.mui .m3 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 20.5c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5'/%3E%3C/svg%3E"); }
+html.mui .m4 { --mui-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='8' r='3.5'/%3E%3Cpath d='M2.5 20c1-3.2 3.5-5 6.5-5s5.5 1.8 6.5 5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 15.3c1.7.7 2.9 2.3 3.5 4.7'/%3E%3C/svg%3E"); }
+
+/* Device group icon (50px) */
+html.mui .mi {
+    position: relative;
+    border-radius: 12px;
+    background: var(--mui-icon-bg) !important;
+}
+
+html.mui .mi::before {
+    content: "";
+    position: absolute;
+    inset: 25%;
+    background-color: var(--mui-icon-fg);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3.5' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='13.5' y='3.5' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='3' y='13' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='13.5' y='13' width='7.5' height='7.5' rx='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3.5' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='13.5' y='3.5' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='3' y='13' width='7.5' height='7.5' rx='1.5'/%3E%3Crect x='13.5' y='13' width='7.5' height='7.5' rx='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Pencil "edit" markers */
+html.mui .hoverButton {
+    opacity: 0.4;
+    vertical-align: baseline;
+}
+
+html.mui body.night .hoverButton {
+    filter: invert(1);
+}
+
+html.mui .hoverButton:hover,
+html.mui *:hover > .hoverButton {
+    opacity: 0.9;
+}
+
+/* Tags */
+html.mui .tagSpan,
+html.mui body.night .tagSpan {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--mui-accent-soft);
+    color: var(--mui-accent);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+/* Warning banners */
+html.mui .warningbox {
+    border: 1px solid var(--mui-warning-soft);
+    border-radius: var(--mui-radius);
+    background: var(--mui-warning-soft);
+    color: var(--mui-text);
+}
+
+/* Tables the classic UI styles inline (user permissions, sessions, ...) */
+html.mui #column_l table[style*="background-color:#EEE"],
+html.mui #dialog table[style*="background-color:#EEE"] {
+    color: var(--mui-text) !important;
+    background-color: var(--mui-surface) !important;
+    border-color: var(--mui-border) !important;
+    border-radius: var(--mui-radius);
+}
+
+html.mui #column_l tr[style*="background-color:#AAAAAA"],
+html.mui #dialog tr[style*="background-color:#AAAAAA"],
+html.mui #column_l tr[style*="background-color:#AAA;"],
+html.mui #dialog tr[style*="background-color:#AAA;"] {
+    background-color: var(--mui-surface-2) !important;
+    color: var(--mui-text-2);
+}
+
+html.mui #column_l tr[style*="background-color:#AAAAAA"] th,
+html.mui #dialog tr[style*="background-color:#AAAAAA"] th {
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+html.mui #column_l tr[style*="background-color:#DDD"],
+html.mui #dialog tr[style*="background-color:#DDD"] {
+    background-color: var(--mui-surface-2) !important;
+}
+
+html.mui #column_l [style*="color:black"],
+html.mui #dialog [style*="color:black"] {
+    color: var(--mui-text) !important;
+}
+
+html.mui #column_l [style*="border-top-color:#DDDDDD"] {
+    margin-top: 6px !important;
+    padding-top: 10px;
+    border-top-color: var(--mui-border) !important;
+    color: var(--mui-text-3);
+}
+
+html.mui #column_l [style*="border-top-color:#DDDDDD"] a {
+    margin-right: 10px;
+}
+
+html.mui #column_l [style*="background-color:lightgray"],
+html.mui #dialog [style*="background-color:lightgray"] {
+    background-color: var(--mui-surface-2) !important;
+}
+
+html.mui body.night [style*="background-color:#fcf3cf"],
+html.mui body.night [style*="background-color:#FFF9D3"] {
+    background-color: var(--mui-warning-soft) !important;
+    color: var(--mui-text) !important;
+}
+
+/* ---------- Detail pages (device, group, user, account, server) ---------- */
+
+html.mui .backButton {
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 11px 12px 0 0;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border-strong);
+    border-radius: var(--mui-radius);
+    background: var(--mui-surface);
+    opacity: 1;
+    box-shadow: var(--mui-shadow-sm);
+}
+
+html.mui .backButton:hover {
+    background: var(--mui-surface-2);
+    opacity: 1;
+}
+
+html.mui .backButtonEx {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    background: var(--mui-text-2) !important;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+html.mui #column_l h1 span[style*="color:#AAA"] {
+    color: var(--mui-text-3) !important;
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+/* Label / value rows */
+html.mui td.style7 {
+    width: 170px;
+    padding: 7px 12px 7px 0;
+    color: var(--mui-text-2);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+html.mui td.style9 {
+    max-width: 520px;
+    padding: 7px 0;
+    color: var(--mui-text);
+    font-size: 13px;
+}
+
+html.mui #p10html > table,
+html.mui #p20info > table:first-child,
+html.mui #p30html > table,
+html.mui #p51group > table {
+    max-width: 760px;
+}
+
+html.mui #p10html,
+html.mui #p30html,
+html.mui #p51group,
+html.mui #p20info > div:first-child {
+    padding: 8px 20px 16px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+}
+
+html.mui #p10html > input[type=button],
+html.mui #p30html > input[type=button] {
+    margin: 4px 6px 0 0;
+}
+
+html.mui #p10html > br {
+    display: none;
+}
+
+html.mui #p10html4,
+html.mui #p10html3,
+html.mui #p10html2 {
+    margin-top: 10px;
+}
+
+html.mui #p10html4 > table,
+html.mui #p20info table[style*="background-color:#EEE"],
+html.mui #p30html3 > table {
+    margin-top: 8px;
+    border: 1px solid var(--mui-border) !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: var(--mui-radius-lg) !important;
+}
+
+html.mui .p10html3left,
+html.mui .p10html3right {
+    padding: 10px 2px;
+}
+
+html.mui .p10html3left a,
+html.mui .p10html3right a {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--mui-surface);
+    border: 1px solid var(--mui-border);
+    color: var(--mui-text-2);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+html.mui .p10html3left a:hover,
+html.mui .p10html3right a:hover {
+    border-color: var(--mui-border-strong);
+    color: var(--mui-text);
+    text-decoration: none;
+}
+
+html.mui .p10html3right a[onclick*="Delete"] {
+    color: var(--mui-danger);
+}
+
+/* Large device picture on the device page, drawn by modernui-client.js */
+html.mui #MainComputerImage.mui-replaced {
+    display: none;
+}
+
+html.mui .mui-bigicon {
+    display: block;
+    width: 112px;
+    height: 112px;
+    margin: 6px auto 0;
+    border-radius: 24px;
+    cursor: pointer;
+}
+
+html.mui .mui-bigicon::before {
+    inset: 26%;
+}
+
+html.mui #MainComputerState {
+    margin-top: 10px;
+    color: var(--mui-text-2);
+    text-align: center;
+}
+
+html.mui #MainMeshImage,
+html.mui #MainUserImage,
+html.mui #p6title > img {
+    width: 120px;
+    height: 120px;
+    opacity: 0.9;
+}
+
+/* Account and server action lists */
+html.mui #p2AccountActions,
+html.mui #p2AccountSecurity,
+html.mui #p2ServerActions {
+    max-width: 720px;
+    margin-bottom: 18px;
+    padding: 4px 20px 12px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+}
+
+html.mui #p2AccountActions p:first-child strong,
+html.mui #p2AccountSecurity p:first-child strong,
+html.mui #p2ServerActions p:first-child strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+html.mui #p2AccountActions .mL,
+html.mui #p2AccountSecurity > div,
+html.mui #p2ServerActions > div {
+    margin-left: 0 !important;
+    line-height: 2.1;
+    columns: 2 220px;
+}
+
+html.mui #p2AccountActions > br[style*="clear"] {
+    display: none;
+}
+
+html.mui #p2AccountImageFrame {
+    padding: 12px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    text-align: center;
+}
+
+html.mui #p2AccountImage {
+    border-radius: 50%;
+    border: 0;
+    box-shadow: none;
+}
+
+/* Device group tiles on My Account */
+html.mui #p2meshes > div {
+    width: 300px !important;
+    height: 56px !important;
+    margin: 0 10px 10px 0;
+    padding: 0 !important;
+    box-sizing: border-box;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+    box-shadow: var(--mui-shadow-sm);
+    overflow: hidden;
+}
+
+html.mui #p2meshes > div:hover {
+    border-color: var(--mui-accent-soft-2);
+    box-shadow: var(--mui-shadow);
+}
+
+html.mui #p2meshes > div > div[style*="width:30px"] {
+    display: none;
+}
+
+html.mui #p2meshes .mi {
+    width: 38px !important;
+    height: 38px !important;
+    margin: 8px 12px 8px 10px;
+    border-radius: 10px;
+}
+
+html.mui #p2meshes .e2 {
+    width: auto !important;
+    float: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--mui-text-3);
+    font-size: 12px;
+}
+
+html.mui #p2meshes .e1 {
+    margin: 0 0 1px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+html.mui #p2meshes .g1,
+html.mui #p2meshes .g2 {
+    display: none;
+}
+
+/* Server statistics */
+html.mui .serverStateTableCell {
+    width: 260px;
+    margin: 0 8px 8px 0;
+    border-collapse: separate;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius);
+    background: var(--mui-surface);
+}
+
+html.mui .serverStateTableCell td {
+    padding: 8px 10px;
+    background: transparent !important;
+    color: var(--mui-text-2);
+}
+
+html.mui .serverStateTableCell td span[style*="float:right"] {
+    color: var(--mui-text);
+    font-weight: 600;
+}
+
+html.mui #serverCpuChartView,
+html.mui #serverMemoryChartView {
+    margin-right: 10px;
+    padding: 12px 16px;
+    border: 1px solid var(--mui-border);
+    border-radius: var(--mui-radius-lg);
+    background: var(--mui-surface);
+}
+
+/* ---------- File browsers (My Files, device files, registry) ---------- */
+
+html.mui #p5filehead,
+html.mui body.night #p5filehead {
+    padding: 6px 8px;
+    border: 1px solid var(--mui-border);
+    border-bottom: 0;
+    border-radius: var(--mui-radius-lg) var(--mui-radius-lg) 0 0;
+    background: var(--mui-surface);
+}
+
+html.mui #p5filehead > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+html.mui #p5filesubhead,
+html.mui body.night #p5filesubhead {
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid var(--mui-border);
+    background: var(--mui-surface-2);
+    color: var(--mui-text-2);
+}
+
+html.mui #p5filesubhead select {
+    min-height: 24px;
+    height: 24px;
+    font-size: 12px;
+}
+
+html.mui #p5filetable,
+html.mui #p13filetable,
+html.mui #p9filetable {
+    box-sizing: border-box;
+    border-left: 1px solid var(--mui-border);
+    border-right: 1px solid var(--mui-border);
+    background: var(--mui-surface);
+}
+
+html.mui .style6,
+html.mui body.night .style6 {
+    padding: 4px 10px;
+    border: 1px solid var(--mui-border);
+    border-radius: 0 0 var(--mui-radius-lg) var(--mui-radius-lg);
+    background: var(--mui-surface-2);
+    color: var(--mui-text-2);
+    font-size: 12px;
+}
+
+/* ---------- Remote desktop, terminal and files toolbars ----------
+ * These bars are part of the height the classic UI reserves above and below the remote
+ * screen, so controls stay compact here. */
+
+html.mui .areaHead,
+html.mui .areaFoot,
+html.mui body.night .areaHead,
+html.mui body.night .areaFoot {
+    --mui-control-h: 24px;
+    background: var(--mui-surface);
+    color: var(--mui-text-2);
+    border: 1px solid var(--mui-border);
+}
+
+html.mui .areaHead {
+    border-radius: var(--mui-radius) var(--mui-radius) 0 0;
+    border-bottom: 0;
+}
+
+html.mui .areaFoot {
+    border-radius: 0 0 var(--mui-radius) var(--mui-radius);
+    border-top: 0;
+}
+
+html.mui .areaHead input[type=button],
+html.mui .areaFoot input[type=button],
+html.mui .areaHead select,
+html.mui .areaFoot select {
+    min-height: 22px;
+    height: 22px;
+    padding: 0 8px;
+    font-size: 12px;
+    box-shadow: none;
+}
+
+html.mui .areaHead select,
+html.mui .areaFoot select {
+    padding-right: 24px;
+    background-position: right 6px center;
+}
+
+html.mui .areaHead input[type=checkbox],
+html.mui .areaFoot input[type=checkbox] {
+    width: 13px;
+    height: 13px;
+}
+
+html.mui #deskarea0,
+html.mui body.night #deskarea0 {
+    color: var(--mui-text);
+}
+
+/* Full screen remote desktop: only the session is shown */
+html.mui .fulldesk #masthead,
+html.mui .fulldesk #footer {
+    display: none;
+}
+
+html.mui .fulldesk #column_l,
+html.mui body.night.fulldesk #column_l {
+    padding: 0;
+    background: #0b0d10;
+}
+
+html.mui .fulldesk .areaHead,
+html.mui .fulldesk .areaFoot {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+html.mui .fulldesk #deskarea3x {
+    border: 0;
+}
+
+html.mui #deskarea3x,
+html.mui #termarea3x,
+html.mui #p14iframe {
+    border-left: 1px solid var(--mui-border);
+    border-right: 1px solid var(--mui-border);
+    box-sizing: border-box;
+}
+
+html.mui .desktopButtons {
+    padding: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+html.mui .desktopButtons:hover {
+    background: var(--mui-surface-2);
+}
+
+html.mui .deskareaicon {
+    color: var(--mui-text-2);
+}
+
+/* The classic console width is the window minus its 90px sidebar and 30px of padding. */
+html.mui .fullscreen #p15agentConsoleText {
+    width: calc(100vw - var(--mui-sidebar-w) - 50px);
+}
+
+html.mui .fullscreen.menu_stack #p15agentConsoleText,
+html.mui .fullscreen.arg_hide #p15agentConsoleText {
+    width: calc(100vw - 50px);
+}
+
+html.mui #p15agentConsole {
+    border-left: 1px solid var(--mui-border);
+    border-right: 1px solid var(--mui-border);
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 1100px) {
+    html.mui .mui-search span {
+        display: none;
+    }
+
+    html.mui .mui-search {
+        width: 34px;
+        padding: 0;
+        justify-content: center;
+        border-color: transparent;
+        background: transparent;
+    }
+
+    html.mui .mui-search .mui-kbd {
+        display: none;
+    }
+
+    html.mui .mui-user-name {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.mui *,
+    html.mui *::before {
+        animation: none !important;
+        transition: none !important;
+    }
+}

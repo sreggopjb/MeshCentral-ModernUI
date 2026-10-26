@@ -1,0 +1,18 @@
+{
+    "name": "Modern UI",
+    "shortName": "modernui",
+    "version": "0.1.0",
+    "author": "",
+    "description": "A modern, cleaner look for the MeshCentral web interface: a refreshed sidebar, header and device list, a command palette, light and dark themes. Every MeshCentral feature keeps working, and each user can switch back to the classic look at any time.",
+    "hasAdminPanel": false,
+    "homepage": "",
+    "changelogUrl": "",
+    "configUrl": "",
+    "downloadUrl": "",
+    "versionHistoryUrl": "",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "meshCentralCompat": ">=1.1.0"
+}
